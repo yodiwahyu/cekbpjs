@@ -2,59 +2,666 @@
 <html lang="id">
 
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>
-    Portal BPJS KMJ2
-  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Portal Data BPJS Karyawan - PT Kanindo Makmur Jaya 2</title>
 
   <style>
+    :root {
+      --primary: #2f7d4a;
+      --primary-dark: #245f38;
+      --primary-light: #edf7ef;
+      --background: #f4f8f5;
+      --card: #ffffff;
+      --text: #26352b;
+      --muted: #7c8a80;
+      --border: #e1e9e3;
+      --success-bg: #eaf7ed;
+      --success-text: #317642;
+      --danger-bg: #fff7f6;
+      --danger-border: #efd8d5;
+      --danger-text: #8a4038;
+    }
 
-    html,
-    body {
+    * { box-sizing: border-box; }
 
+    html {
+      width: 100%;
       margin: 0;
       padding: 0;
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
 
+    body {
       width: 100%;
-      height: 100%;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+      overflow-x: hidden;
+    }
 
-      overflow: hidden;
+    button, input, select {
+      font-family: inherit;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
 
+    .app {
+      width: 100%;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+    }
+
+    .header {
+      width: 100%;
       background: #ffffff;
-
+      padding: 22px 12px 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
     }
 
-
-    iframe {
-
+    .kanindo-logo {
       display: block;
-
-      width: 100%;
-      height: 100%;
-
-      border: none;
-
+      width: 145px;
+      max-width: 65%;
+      height: auto;
+      margin: 0 auto 14px;
     }
 
-  </style>
+    .company-name {
+      margin: 0 0 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #68786d;
+    }
 
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .main {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: 10px 7px 35px;
+    }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 18px 12px;
+      box-shadow: 0 5px 20px rgba(38, 53, 43, 0.05);
+    }
+
+    .card-title {
+      margin: 0 0 6px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .card-description {
+      margin: 0 0 19px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin: 0 0 7px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .input {
+      display: block;
+      width: 100%;
+      height: 54px;
+      padding: 0 13px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #ffffff;
+      color: var(--text);
+      font-size: 16px;
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(47, 125, 74, 0.10);
+    }
+
+    .birth-date-group {
+      display: grid;
+      grid-template-columns: 0.85fr 1.35fr 1fr;
+      gap: 6px;
+    }
+
+    .birth-date-group select {
+      height: 54px;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #ffffff;
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+    }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      height: 54px;
+      margin-top: 2px;
+      border: 0;
+      border-radius: 13px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .error-box {
+      display: none;
+      width: 100%;
+      margin-top: 13px;
+      padding: 15px;
+      border: 1px solid var(--danger-border);
+      border-radius: 14px;
+      background: var(--danger-bg);
+      color: var(--danger-text);
+    }
+
+    .error-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .error-message {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .bpjs-info {
+      width: 100%;
+      margin-top: 13px;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--primary-light);
+      border: 1px solid #dcecdf;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+    .bpjs-info .example {
+      padding: 9px 10px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 9px;
+      color: #53645a;
+      margin-top: 8px;
+    }
+
+    .help-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 49px;
+      margin-top: 12px;
+      padding: 9px 12px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    #hasil {
+      display: none;
+      width: 100%;
+      margin-top: 13px;
+    }
+
+    .profile-card {
+      width: 100%;
+      background: var(--primary);
+      border-radius: 17px;
+      padding: 17px;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .profile-name {
+      font-size: 20px;
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .profile-nik {
+      margin-top: 5px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .section-title {
+      margin: 18px 2px 9px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .bpjs-card {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 9px;
+      box-shadow: 0 4px 15px rgba(38, 53, 43, 0.04);
+    }
+
+    .bpjs-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 11px;
+    }
+
+    .bpjs-logo {
+      width: 145px;
+      max-width: 60%;
+      height: 38px;
+      object-fit: contain;
+    }
+
+    .status-active {
+      padding: 4px 9px;
+      border-radius: 30px;
+      background: var(--success-bg);
+      color: var(--success-text);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .bpjs-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .bpjs-number-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bpjs-number {
+      flex: 1;
+      font-size: 18px;
+      font-weight: 700;
+      word-break: break-all;
+    }
+
+    .copy-button {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff;
+      color: var(--primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .copy-button.copied {
+      background: var(--success-bg);
+      border-color: #c8e6cf;
+      color: var(--success-text);
+    }
+
+    .facility-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .facility-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .facility-item {
+      padding: 12px;
+      border-radius: 11px;
+      background: var(--primary-light);
+    }
+
+    .facility-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .facility-value {
+      font-size: 14px;
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .btn-reset {
+      display: block;
+      width: 100%;
+      height: 50px;
+      margin-top: 15px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #ffffff;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 7px 10px 25px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .loading {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .spinner {
+      width: 17px;
+      height: 17px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (min-width: 700px) {
+      body { padding: 25px; }
+      .app {
+        max-width: 560px;
+        margin: 0 auto;
+        border-radius: 28px;
+        box-shadow: 0 15px 45px rgba(38, 53, 43, 0.10);
+      }
+    }
+  </style>
 </head>
 
-
 <body>
+<div class="app">
+  <header class="header">
+    <img src="https://raw.githubusercontent.com/yodiwahyu/berkas/main/logo%20kanindo.png" class="kanindo-logo" alt="PT Kanindo">
+    <div class="company-name">PT Kanindo Makmur Jaya – Factory 2</div>
+    <h1>Portal Data BPJS Karyawan</h1>
+  </header>
 
-  <iframe
-    src="https://script.google.com/macros/s/AKfycbyqav5oq1cYXkh1GMNDezDwFZOpZwQEvvq_SeBrsSCFNe-v3UXwjAaF2N7cnyi7-mWW/exec"
-    allowfullscreen>
-  </iframe>
+  <main class="main">
+    <div class="card" id="formCard">
+      <h2 class="card-title">Cek Data Kepesertaan</h2>
+      <p class="card-description">Silakan masukkan NIK dan tanggal lahir sesuai dengan data yang terdaftar.</p>
 
+      <div class="form-group">
+        <label for="nik">NIK ID Card</label>
+        <input type="text" id="nik" class="input" inputmode="numeric" maxlength="20" autocomplete="off" placeholder="Masukkan Nomor ID Card">
+      </div>
+
+      <div class="form-group">
+        <label>Tanggal Lahir</label>
+        <div class="birth-date-group">
+          <select id="tanggal"><option value="">Tanggal</option></select>
+          <select id="bulan">
+            <option value="">Bulan</option>
+            <option value="01">Januari</option><option value="02">Februari</option><option value="03">Maret</option>
+            <option value="04">April</option><option value="05">Mei</option><option value="06">Juni</option>
+            <option value="07">Juli</option><option value="08">Agustus</option><option value="09">September</option>
+            <option value="10">Oktober</option><option value="11">November</option><option value="12">Desember</option>
+          </select>
+          <select id="tahun"><option value="">Tahun</option></select>
+        </div>
+      </div>
+
+      <button type="button" id="btnCek" class="btn-primary" onclick="cekData()">Cek Data</button>
+
+      <div id="errorBox" class="error-box">
+        <div class="error-title">Data Tidak Ditemukan</div>
+        <p id="errorMessage" class="error-message">Data tidak ditemukan.</p>
+        <div class="bpjs-info">
+          <strong>Informasi Kepesertaan BPJS</strong><br>
+          Bagi karyawan yang masuk tanggal <strong>1–20</strong>, data BPJS dapat dilihat mulai tanggal <strong>11 bulan berikutnya</strong>.<br>
+          Bagi karyawan yang masuk tanggal <strong>21–akhir bulan</strong>, data BPJS dapat dilihat mulai tanggal <strong>11 pada bulan kedua setelah bulan masuk</strong>.
+        </div>
+        <a href="https://www.instagram.com/recruitment_kanindo2/" target="_blank" class="help-button">Tanya Admin</a>
+      </div>
+    </div>
+
+    <div id="hasil">
+      <div class="profile-card">
+        <div id="namaKaryawan" class="profile-name">-</div>
+        <div id="nikKaryawan" class="profile-nik">NIK: -</div>
+      </div>
+
+      <div id="bpjsSection">
+        <div class="section-title">Kepesertaan BPJS</div>
+        <div class="bpjs-card">
+          <div class="bpjs-header">
+            <img src="https://www.bpjsketenagakerjaan.go.id/newweb/images/logo-bpjamsostek-color.svg" class="bpjs-logo" alt="BPJS TK">
+            <span class="status-active">VALID</span>
+          </div>
+          <div class="bpjs-label">Nomor BPJS Ketenagakerjaan</div>
+          <div class="bpjs-number-row">
+            <div class="bpjs-number" id="bpjstk">-</div>
+            <button type="button" class="copy-button" onclick="copyBPJS('bpjstk', this)">⧉</button>
+          </div>
+        </div>
+
+        <div class="bpjs-card">
+          <div class="bpjs-header">
+            <img src="https://www.bpjs-kesehatan.go.id/assets/img/logo/logo-color.svg" class="bpjs-logo" alt="BPJS Kesehatan">
+            <span class="status-active">VALID</span>
+          </div>
+          <div class="bpjs-label">Nomor BPJS Kesehatan</div>
+          <div class="bpjs-number-row">
+            <div class="bpjs-number" id="bpjskes">-</div>
+            <button type="button" class="copy-button" onclick="copyBPJS('bpjskes', this)">⧉</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="facilitySection">
+        <div class="section-title">Fasilitas Kesehatan</div>
+        <div class="facility-card">
+          <div class="facility-grid">
+            <div class="facility-item">
+              <div class="facility-label">Faskes Umum</div>
+              <div id="faskes" class="facility-value">-</div>
+            </div>
+            <div class="facility-item">
+              <div class="facility-label">Faskes Gigi</div>
+              <div id="dokterGigi" class="facility-value">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-reset" onclick="resetForm()">Cek Data Karyawan Lain</button>
+    </div>
+  </main>
+
+  <footer class="footer">Portal Data BPJS Karyawan<br>PT Kanindo Makmur Jaya – Factory 2</footer>
+</div>
+
+<script>
+  // URL Web App Google Apps Script Anda (pastikan tidak salah)
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqav5oq1cYXkh1GMNDezDwFZOpZwQEvvq_SeBrsSCFNe-v3UXwjAaF2N7cnyi7-mWW/exec";
+
+  // Isi Tanggal
+  const tanggalSelect = document.getElementById("tanggal");
+  for (let i = 1; i <= 31; i++) {
+    const opt = document.createElement("option");
+    opt.value = String(i).padStart(2, "0");
+    opt.textContent = i;
+    tanggalSelect.appendChild(opt);
+  }
+
+  // Isi Tahun
+  const tahunSelect = document.getElementById("tahun");
+  const maxYear = new Date().getFullYear() - 18;
+  for (let y = maxYear; y >= maxYear - 70; y--) {
+    const opt = document.createElement("option");
+    opt.value = y;
+    opt.textContent = y;
+    tahunSelect.appendChild(opt);
+  }
+
+  function tampilkanError(msg) {
+    document.getElementById("errorMessage").textContent = msg;
+    document.getElementById("errorBox").style.display = "block";
+    document.getElementById("errorBox").scrollIntoView({ behavior: "smooth" });
+  }
+
+  function sembunyikanError() {
+    document.getElementById("errorBox").style.display = "none";
+  }
+
+  function cekData() {
+    sembunyikanError();
+    const nik = document.getElementById("nik").value.trim();
+    const tgl = document.getElementById("tanggal").value;
+    const bln = document.getElementById("bulan").value;
+    const thn = document.getElementById("tahun").value;
+
+    if (!nik || !tgl || !bln || !thn) {
+      tampilkanError("Silakan lengkapi NIK dan Tanggal Lahir.");
+      return;
+    }
+
+    const tanggalLahir = `${thn}-${bln}-${tgl}`;
+    const btn = document.getElementById("btnCek");
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading"><span class="spinner"></span>Memeriksa...</span>';
+
+    // Menggunakan fetch POST ke Google Apps Script
+    fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors", // Diperlukan agar tidak terhalang CORS browser
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nik: nik, tanggalLahir: tanggalLahir })
+    })
+    .then(() => {
+      // Karena mode 'no-cors' tidak mengembalikan response body secara langsung,
+      // kita gunakan teknik GET / JSONP callback atau endpoint GET untuk mengambil data.
+      // Cara paling stabil dengan no-cors adalah melayani data via parameter GET URL.
+      ambilDataViaGet(nik, tanggalLahir, btn);
+    })
+    .catch((err) => {
+      btn.disabled = false;
+      btn.textContent = "Cek Data";
+      tampilkanError("Terjadi kesalahan koneksi ke server.");
+      console.error(err);
+    });
+  }
+
+  function ambilDataViaGet(nik, tanggalLahir, btn) {
+    const url = `${SCRIPT_URL}?nik=${encodeURIComponent(nik)}&tanggalLahir=${encodeURIComponent(tanggalLahir)}`;
+    
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        btn.disabled = false;
+        btn.textContent = "Cek Data";
+
+        if (!data || !data.found) {
+          tampilkanError("Data karyawan tidak ditemukan / NIK dan Tanggal Lahir tidak cocok.");
+          return;
+        }
+        tampilkanHasil(data);
+      })
+      .catch(() => {
+        btn.disabled = false;
+        btn.textContent = "Cek Data";
+        tampilkanError("Gagal mengambil hasil data.");
+      });
+  }
+
+  function tampilkanHasil(data) {
+    document.getElementById("formCard").style.display = "none";
+    document.getElementById("hasil").style.display = "block";
+    document.getElementById("namaKaryawan").textContent = data.nama || "-";
+    document.getElementById("nikKaryawan").textContent = "NIK: " + (data.nik || "-");
+    document.getElementById("bpjstk").textContent = data.bpjstk || "-";
+    document.getElementById("bpjskes").textContent = data.bpjskes || "-";
+    document.getElementById("faskes").textContent = data.faskes || "-";
+    document.getElementById("dokterGigi").textContent = data.dokterGigi || "-";
+    document.getElementById("hasil").scrollIntoView({ behavior: "smooth" });
+  }
+
+  function copyBPJS(id, btn) {
+    const val = document.getElementById(id).textContent.trim();
+    if (!val || val === "-") return;
+    navigator.clipboard.writeText(val).then(() => {
+      const icon = btn.textContent;
+      btn.textContent = "✓";
+      btn.classList.add("copied");
+      setTimeout(() => {
+        btn.textContent = icon;
+        btn.classList.remove("copied");
+      }, 1500);
+    });
+  }
+
+  function resetForm() {
+    document.getElementById("nik").value = "";
+    document.getElementById("tanggal").value = "";
+    document.getElementById("bulan").value = "";
+    document.getElementById("tahun").value = "";
+    document.getElementById("hasil").style.display = "none";
+    document.getElementById("formCard").style.display = "block";
+    sembunyikanError();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+</script>
 </body>
-
 </html>
