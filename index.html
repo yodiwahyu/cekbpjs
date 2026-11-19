@@ -427,6 +427,127 @@
         box-shadow: 0 15px 45px rgba(38, 53, 43, 0.10);
       }
     }
+  
+
+/* =================================
+   SIMULASI TANGGAL AKTIF BPJS
+   ================================= */
+.bpjs-simulator {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid #dcecdf;
+  border-radius: 14px;
+  background: var(--primary-light);
+}
+.bpjs-simulator h3 {
+  margin: 0 0 7px;
+  font-size: 15px;
+}
+.bpjs-simulator p {
+  margin: 0 0 12px;
+  color: #53645a;
+  font-size: 12px;
+  line-height: 1.55;
+}
+.bpjs-simulator input {
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+}
+.simulation-result {
+  display: none;
+  margin-top: 11px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #dcecdf;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.simulation-result strong { color: var(--primary-dark); }
+
+/* =================================
+   PANDUAN & INFORMASI BPJS
+   ================================= */
+.tutorial-section { width: 100%; margin-top: 24px; }
+.tutorial-subtitle {
+  margin: -5px 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.tutorial-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  padding: 14px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--text);
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(15,23,42,.04);
+  transition: transform .2s ease, border-color .2s ease;
+}
+.tutorial-card:hover { transform: translateY(-2px); border-color: var(--primary); }
+.tutorial-icon {
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.jmo-icon { background: #e8f5ee; color: #2f7d4a; }
+.tk-icon { background: #eaf2ff; color: #2563eb; }
+.jkn-icon { background: #eef2ff; color: #4f46e5; }
+.tutorial-content {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+}
+.tutorial-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
+.tutorial-heading strong { font-size: 13px; line-height: 1.4; }
+.tutorial-badge {
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 9px;
+  font-weight: 700;
+}
+.tutorial-description { color: #64748b; font-size: 11.5px; line-height: 1.55; }
+.tutorial-note {
+  display: block;
+  margin-top: 3px;
+  padding: 8px 10px;
+  border-left: 3px solid var(--primary);
+  border-radius: 6px;
+  background: #f0fdf4;
+  color: #475569;
+  font-size: 11px;
+  line-height: 1.55;
+}
+.tutorial-note strong { color: var(--primary); }
+.tutorial-action { color: var(--primary); font-size: 11px; font-weight: 700; }
+.tutorial-arrow { flex: 0 0 auto; color: var(--primary); font-size: 24px; }
+@media (max-width: 380px) {
+  .tutorial-card { gap: 9px; padding: 12px; }
+  .tutorial-icon { flex-basis: 42px; width: 42px; height: 42px; }
+}
+
   </style>
 </head>
 
@@ -469,9 +590,17 @@
         <div class="error-title">Data Tidak Ditemukan</div>
         <p id="errorMessage" class="error-message">Data tidak ditemukan.</p>
         <div class="bpjs-info">
-          <strong>Informasi Kepesertaan BPJS</strong><br>
-          Bagi karyawan yang masuk tanggal <strong>1–20</strong>, data BPJS dapat dilihat mulai tanggal <strong>11 bulan berikutnya</strong>.<br>
-          Bagi karyawan yang masuk tanggal <strong>21–akhir bulan</strong>, data BPJS dapat dilihat mulai tanggal <strong>11 pada bulan kedua setelah bulan masuk</strong>.
+          <div class="info-title"><strong>Informasi Kepesertaan BPJS</strong></div>
+          <p>Bagi karyawan yang masuk tanggal <strong>1–20</strong>, data BPJS dapat dilihat mulai tanggal <strong>11 bulan berikutnya</strong>.</p>
+          <p class="example">Contoh: TMT <strong>5 <span id="bulanContoh1"></span> <span id="tahunContoh1"></span></strong> → dapat dilihat mulai <strong>11 <span id="bulanAktif1"></span> <span id="tahunAktif1"></span></strong>.</p>
+          <p>Bagi karyawan yang masuk tanggal <strong>21–akhir bulan</strong>, data BPJS dapat dilihat mulai tanggal <strong>11 pada bulan kedua setelah bulan masuk</strong>.</p>
+          <p class="example">Contoh: TMT <strong>22 <span id="bulanContoh2"></span> <span id="tahunContoh2"></span></strong> → dapat dilihat mulai <strong>11 <span id="bulanAktif2"></span> <span id="tahunAktif2"></span></strong>.</p>
+        </div>
+        <div class="bpjs-simulator">
+          <h3>Simulasi Tanggal Aktif BPJS</h3>
+          <p>Pilih tanggal mulai bekerja (TMT) untuk mengetahui perkiraan tanggal data BPJS dapat dilihat.</p>
+          <input type="date" id="tanggalTMT" aria-label="Pilih tanggal mulai bekerja">
+          <div id="hasilSimulasi" class="simulation-result" aria-live="polite"></div>
         </div>
         <a href="https://www.instagram.com/recruitment_kanindo2/" target="_blank" class="help-button">Tanya Admin</a>
       </div>
@@ -526,6 +655,42 @@
         </div>
       </div>
 
+      <div id="tutorialSection" class="tutorial-section" style="display:none;">
+        <div class="section-title">Panduan &amp; Informasi BPJS</div>
+        <div class="tutorial-subtitle">Akses panduan resmi dan informasi layanan BPJS Ketenagakerjaan serta BPJS Kesehatan.</div>
+
+        <a href="https://www.bpjsketenagakerjaan.go.id/jmo/" target="_blank" rel="noopener noreferrer" class="tutorial-card">
+          <div class="tutorial-icon jmo-icon">JMO</div>
+          <div class="tutorial-content">
+            <div class="tutorial-heading"><strong>JMO – BPJS Ketenagakerjaan</strong><span class="tutorial-badge">BPJS TK</span></div>
+            <span class="tutorial-description">Panduan penggunaan aplikasi JMO, pendaftaran akun, lupa akun email dan password.</span>
+            <span class="tutorial-note"><strong>Saldo JHT tidak muncul?</strong><br>Login JMO → Profil Saya → Ubah Profil → Tambah Nomor KPJ.</span>
+            <span class="tutorial-action">Buka JMO</span>
+          </div>
+          <span class="tutorial-arrow">›</span>
+        </a>
+
+        <a href="https://www.bpjsketenagakerjaan.go.id/" target="_blank" rel="noopener noreferrer" class="tutorial-card">
+          <div class="tutorial-icon tk-icon">TK</div>
+          <div class="tutorial-content">
+            <div class="tutorial-heading"><strong>BPJS Ketenagakerjaan</strong><span class="tutorial-badge">BPJS TK</span></div>
+            <span class="tutorial-description">Informasi program, manfaat, kepesertaan, layanan, dan informasi resmi BPJS Ketenagakerjaan.</span>
+            <span class="tutorial-action">Kunjungi Website Resmi</span>
+          </div>
+          <span class="tutorial-arrow">›</span>
+        </a>
+
+        <a href="https://bpjs-kesehatan.go.id/user-manual-mobile-jkn/" target="_blank" rel="noopener noreferrer" class="tutorial-card">
+          <div class="tutorial-icon jkn-icon">JKN</div>
+          <div class="tutorial-content">
+            <div class="tutorial-heading"><strong>Mobile JKN – BPJS Kesehatan</strong><span class="tutorial-badge">BPJS KES</span></div>
+            <span class="tutorial-description">Panduan penggunaan aplikasi Mobile JKN untuk mengakses berbagai layanan BPJS Kesehatan.</span>
+            <span class="tutorial-action">Buka Panduan Mobile JKN</span>
+          </div>
+          <span class="tutorial-arrow">›</span>
+        </a>
+      </div>
+
       <button type="button" class="btn-reset" onclick="resetForm()">Cek Data Karyawan Lain</button>
     </div>
   </main>
@@ -536,6 +701,93 @@
 <script>
   // URL Web App Google Apps Script Anda (pastikan tidak salah)
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqav5oq1cYXkh1GMNDezDwFZOpZwQEvvq_SeBrsSCFNe-v3UXwjAaF2N7cnyi7-mWW/exec";
+
+  // Nama bulan untuk informasi contoh dan simulasi tanggal aktif BPJS.
+  const NAMA_BULAN = [
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  ];
+
+  function formatTanggalAktif(tanggalTMT) {
+    const tanggal = new Date(
+      tanggalTMT.getFullYear(),
+      tanggalTMT.getMonth(),
+      tanggalTMT.getDate()
+    );
+
+    // TMT tanggal 1–20: tanggal 11 bulan berikutnya.
+    // TMT tanggal 21–akhir bulan: tanggal 11 dua bulan berikutnya.
+    const tambahanBulan = tanggal.getDate() <= 20 ? 1 : 2;
+    return new Date(tanggal.getFullYear(), tanggal.getMonth() + tambahanBulan, 11);
+  }
+
+  function isiContohTanggalAktif() {
+    const sekarang = new Date();
+    const contohAwal = new Date(sekarang.getFullYear(), sekarang.getMonth(), 5);
+    const contohAkhir = new Date(sekarang.getFullYear(), sekarang.getMonth(), 22);
+    const aktifAwal = formatTanggalAktif(contohAwal);
+    const aktifAkhir = formatTanggalAktif(contohAkhir);
+
+    const isi = (id, nilai) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = nilai;
+    };
+
+    isi("bulanContoh1", NAMA_BULAN[contohAwal.getMonth()]);
+    isi("tahunContoh1", contohAwal.getFullYear());
+    isi("bulanAktif1", NAMA_BULAN[aktifAwal.getMonth()]);
+    isi("tahunAktif1", aktifAwal.getFullYear());
+
+    isi("bulanContoh2", NAMA_BULAN[contohAkhir.getMonth()]);
+    isi("tahunContoh2", contohAkhir.getFullYear());
+    isi("bulanAktif2", NAMA_BULAN[aktifAkhir.getMonth()]);
+    isi("tahunAktif2", aktifAkhir.getFullYear());
+  }
+
+  function simulasiTanggalAktif() {
+    const input = document.getElementById("tanggalTMT");
+    const output = document.getElementById("hasilSimulasi");
+    if (!input || !output) return;
+
+    if (!input.value) {
+      output.style.display = "none";
+      output.textContent = "";
+      return;
+    }
+
+    // Pecah YYYY-MM-DD agar tidak bergeser karena zona waktu UTC.
+    const bagian = input.value.split("-").map(Number);
+    const tmt = new Date(bagian[0], bagian[1] - 1, bagian[2]);
+    if (
+      tmt.getFullYear() !== bagian[0] ||
+      tmt.getMonth() !== bagian[1] - 1 ||
+      tmt.getDate() !== bagian[2]
+    ) {
+      output.style.display = "block";
+      output.textContent = "Tanggal TMT tidak valid.";
+      return;
+    }
+
+    const tanggalAktif = formatTanggalAktif(tmt);
+    const formatTanggal = d =>
+      d.getDate() + " " + NAMA_BULAN[d.getMonth()] + " " + d.getFullYear();
+
+    const ketentuan = tmt.getDate() <= 20
+      ? "TMT tanggal 1–20: dihitung pada bulan berikutnya."
+      : "TMT tanggal 21–akhir bulan: dihitung pada bulan kedua setelah bulan masuk.";
+
+    output.innerHTML =
+      "Tanggal mulai bekerja: <strong>" + formatTanggal(tmt) + "</strong><br>" +
+      ketentuan + "<br>" +
+      "Perkiraan data BPJS dapat dilihat mulai: <strong>" +
+      formatTanggal(tanggalAktif) + "</strong>.";
+
+    output.style.display = "block";
+  }
+
+  isiContohTanggalAktif();
+  document.getElementById("tanggalTMT").addEventListener("change", simulasiTanggalAktif);
+
 
   // Isi Tanggal
   const tanggalSelect = document.getElementById("tanggal");
@@ -629,6 +881,7 @@
   function tampilkanHasil(data) {
     document.getElementById("formCard").style.display = "none";
     document.getElementById("hasil").style.display = "block";
+    document.getElementById("tutorialSection").style.display = "block";
     document.getElementById("namaKaryawan").textContent = data.nama || "-";
     document.getElementById("nikKaryawan").textContent = "NIK: " + (data.nik || "-");
     document.getElementById("bpjstk").textContent = data.bpjstk || "-";
@@ -658,6 +911,9 @@
     document.getElementById("bulan").value = "";
     document.getElementById("tahun").value = "";
     document.getElementById("hasil").style.display = "none";
+    document.getElementById("tutorialSection").style.display = "none";
+    document.getElementById("tanggalTMT").value = "";
+    document.getElementById("hasilSimulasi").style.display = "none";
     document.getElementById("formCard").style.display = "block";
     sembunyikanError();
     window.scrollTo({ top: 0, behavior: "smooth" });
